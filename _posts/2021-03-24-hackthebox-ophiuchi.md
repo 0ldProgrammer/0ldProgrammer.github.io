@@ -156,3 +156,17 @@ Donc, comme la fonction retourne la valeur 0, il faut trouver un moyen de change
 
 Je vais essayer tout d'abord de décompiler `main.wasm`, si j'essaye de lire ce fichier, il me donnera dans la sortie standard des choses inintelligibles. Donc, pour ce cas, j'utiliserais le programme `rewasm` pour décompiler ça, je vais transporter le fichier `main.wasm` vers ma machine physique soit en utilisant `SSH` ou directement depuis avec `netcat`.
 
+L'installation de cet outil est relativement simple, il suffit de l'installer depuis [ici](https://github.com/benediktwerner/rewasm).
+
+## Decompiling main.wasm
+
+En utilisant l'outil `rewasm` directement, on peut voir que la fonction `info()` est bien présente basiquement dans le fichier `main.wasm`.
+
+    root@kali:~/htb/Ophiuchi/rewasm# /root/.cargo/bin/rewasm main.wasm
+    Decompiling f0
+    // Function 0
+    fn info() -> i32 {
+        return 0;
+    }
+
+C'est du `Rust`, il y a uniquement une fonction donc qui est `info()` qui est importé dans `index.go`. On peut contaster ce que nous voulons c'est qu'il retourne la valeur `1` et non la valeur `0`. J'ai essayé tellement de chose pour récompiler cela, mais c'était impossible à chaque fois que j'essayais de importer cela et lancer le programme, il me disait que il y avait une erreur de pointeur ou de mémoire, donc j'ai perdu enormément de temps à essayer de récompiler cela, mais il existe une solution beaucoup plus simple en utilisant simplement l'outil `wasm2wat` et `wat2wasm`.
