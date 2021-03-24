@@ -99,3 +99,47 @@ En utilisant la commande `su` essayons si cela fonctionne :
     Password: whythereisalimit
     admin@ophiuchi:~$
     
+# admin > root
+
+En fesant `sudo -l`, on peut voir que j'ai des permissions d'exécuter une commande en tant que root :
+
+    admin@ophiuchi:~$ sudo -l
+    Matching Defaults entries for admin on ophiuchi:
+        env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+    User admin may run the following commands on ophiuchi:
+        (ALL) NOPASSWD: /usr/bin/go run /opt/wasm-functions/index.go
+        
+ En regardant le script, essayons de comprendre le code `Go` :
+
+```go
+package main
+
+import (
+        "fmt"
+        wasm "github.com/wasmerio/wasmer-go/wasmer"
+        "os/exec"
+        "log"
+)
+
+
+func main() {
+        bytes, _ := wasm.ReadBytes("main.wasm")
+
+        instance, _ := wasm.NewInstance(bytes)
+        defer instance.Close()
+        init := instance.Exports["info"]
+        result,_ := init()
+        f := result.String()
+        if (f != "1") {
+                fmt.Println("Not ready to deploy")
+        } else {
+                fmt.Println("Ready to deploy")
+                out, err := exec.Command("/bin/sh", "deploy.sh").Output()
+                if err != nil {
+                        log.Fatal(err)
+                }
+                fmt.Println(string(out))
+        }
+}
+```
