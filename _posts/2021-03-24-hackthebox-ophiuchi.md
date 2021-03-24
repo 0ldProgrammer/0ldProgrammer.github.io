@@ -169,4 +169,23 @@ En utilisant l'outil `rewasm` directement, on peut voir que la fonction `info()`
         return 0;
     }
 
-C'est du `Rust`, il y a uniquement une fonction donc qui est `info()` qui est importé dans `index.go`. On peut contaster ce que nous voulons c'est qu'il retourne la valeur `1` et non la valeur `0`. J'ai essayé tellement de chose pour récompiler cela, mais c'était impossible à chaque fois que j'essayais de importer cela et lancer le programme, il me disait que il y avait une erreur de pointeur ou de mémoire, donc j'ai perdu enormément de temps à essayer de récompiler cela, mais il existe une solution beaucoup plus simple en utilisant simplement l'outil `wasm2wat` et `wat2wasm`.
+C'est du `Rust`, il y a uniquement une fonction donc qui est `info()` qui est importé dans `index.go`. On peut contaster ce que nous voulons c'est qu'il retourne la valeur `1` et non la valeur `0`. J'ai essayé tellement de chose pour récompiler cela, mais c'était impossible à chaque fois que j'essayais de importer cela et lancer le programme, il me disait que il y avait une erreur de pointeur ou de mémoire, donc j'ai perdu enormément de temps à essayer de récompiler ça, mais il existe une solution beaucoup plus simple en utilisant simplement l'outil `wasm2wat` et `wat2wasm`. Le github est juste [ici](https://github.com/WebAssembly/wabt)
+
+    $ wasm2wat main.wasm -o test.wat
+    $ cat test.wat
+    (module
+      (type $t0 (func (result i32)))
+      (func $info (export "info") (type $t0) (result i32)
+        (i32.const 0))
+      (table $T0 1 1 funcref)
+      (memory $memory (export "memory") 16)
+      (global $g0 (mut i32) (i32.const 1048576))
+      (global $__data_end (export "__data_end") i32 (i32.const 1048576))
+      (global $__heap_base (export "__heap_base") i32 (i32.const 1048576)))
+
+La valeur 0 de cette ligne `(i32.const 0))` doit être changer par `(i32.const 1))`, sauvegarder ça, et ensuite nous allons lancer l'outil `wat2wasm` cette fois-ci pour le convertir en `WASM`.
+
+    root@kali:~/htb/Ophiuchi# wat2wasm main.wat
+    root@kali:~/htb/Ophiuchi# ls
+    main.wasm  main.wat
+    
