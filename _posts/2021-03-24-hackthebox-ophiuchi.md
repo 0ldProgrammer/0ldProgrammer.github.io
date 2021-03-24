@@ -1,7 +1,7 @@
 ---
 title: "HackTheBox - Ophiuchi"
 description: yaml.png
-tags: ["Dans cet article je vous présente la machine que j'ai créée, une machine consacré au détéction de malware."]
+tags: ["Le système Ophiuchi, disponible sur la platforme HackTheBox, fut très intéressant et amusante. Le niveau de difficulté était plutôt simple, étant donné qu’une bonne énumération était amplement suffisante. De plus, j’ai appris beaucoup de chose tout au long de l’exploitation des failles de ce système."]
 ---
 
 Bonjour à tous, après un bon moment, je suis content de vous retrouver à nouveau sur mon site Web pour vous présenter la machine Ophiuchi de [HackTheBox](https://www.hackthebox.eu/).
