@@ -1,6 +1,6 @@
 ---
 title: "HackTheBox - Ophiuchi"
-description: pickle-fr.jpg
+description: yaml.png
 tags: ["Dans cet article je vous présente la machine que j'ai créée, une machine consacré au détéction de malware."]
 ---
 
