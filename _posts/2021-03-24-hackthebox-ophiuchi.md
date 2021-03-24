@@ -169,7 +169,7 @@ En utilisant l'outil `rewasm` directement, on peut voir que la fonction `info()`
         return 0;
     }
 
-C'est du `Rust`, il y a uniquement une fonction donc qui est `info()` qui est importé dans `index.go`. On peut contaster ce que nous voulons c'est qu'il retourne la valeur `1` et non la valeur `0`. J'ai essayé tellement de chose pour récompiler cela, mais c'était impossible à chaque fois que j'essayais de importer cela et lancer le programme, il me disait que il y avait une erreur de pointeur ou de mémoire, donc j'ai perdu enormément de temps à essayer de récompiler ça, mais il existe une solution beaucoup plus simple en utilisant simplement l'outil `wasm2wat` et `wat2wasm`. Le github est juste [ici](https://github.com/WebAssembly/wabt)
+C'est du `Rust`, il y a uniquement une fonction donc qui est `info()` qui est importé dans `index.go`. Ce que nous voulons c'est qu'il retourne la valeur `1` et non la valeur `0`. J'ai essayé tellement de chose pour recompiler ça, mais c'était impossible à chaque fois que j'essayais de importer cela et lancer le programme, ça me disait que il y avait une erreur de pointeur ou de mémoire, donc j'ai perdu enormément de temps à essayer de recompiler ça, mais il existe une solution beaucoup plus simple en utilisant simplement l'outil `wasm2wat` et `wat2wasm`. Le github est juste [ici](https://github.com/WebAssembly/wabt).
 
     $ wasm2wat main.wasm -o test.wat
     $ cat test.wat
