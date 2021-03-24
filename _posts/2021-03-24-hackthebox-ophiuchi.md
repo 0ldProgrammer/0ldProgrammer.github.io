@@ -143,3 +143,16 @@ func main() {
         }
 }
 ```
+
+La première chose que je remarque est que le fichier `main.wasm` n'a pas été mis comme chemin complet, donc on peut déjà jouer avec cela et c'est exactement pareil pour le fichier `deploy.sh`. Basiquement le fichier `main.wasm`, `deploy.sh` et `index.go` se situe tous dans le même sous-dossier.
+
+Le script utilise la fonction `ReadBytes()` pour lire les données du fichier `main.wasm` et ensuite, il exporte la fonction `info()` du fichier `main.wasm` et fait une condition si le retour de la fonction (info()) retourne un 0 ou 1, dans ce cas ça va être logiquement un 0.
+
+    admin@ophiuchi:~$ cd /opt/wasm-functions/
+    admin@ophiuchi:/opt/wasm-functions$ sudo /usr/bin/go run /opt/wasm-functions/index.go
+    Not ready to deploy
+    
+Donc, comme la fonction retourne la valeur 0, il faut trouver un moyen de changer la valeur de 0 à 1 pour qu'il saute dans le `else` et pour que nous puissons créer notre fichier `deploy.sh` et faire exécuter cela par `root`.
+
+Je vais essayer tout d'abord de décompiler `main.wasm`, si j'essaye de lire ce fichier, il me donnera dans la sortie standard des choses inintelligibles. Donc, pour ce cas, j'utiliserais le programme `rewasm` pour décompiler ça, je vais transporter le fichier `main.wasm` vers ma machine physique soit en utilisant `SSH` ou directement depuis avec `netcat`.
+
