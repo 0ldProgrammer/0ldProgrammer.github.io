@@ -6,6 +6,10 @@ tags: ["Le système Ophiuchi, disponible sur la platforme HackTheBox, fut très 
 
 Bonjour à tous, après un bon moment, je suis content de vous retrouver à nouveau sur mon site Web pour vous présenter la machine Ophiuchi de [HackTheBox](https://www.hackthebox.eu/).
 
+|username|password|
+|---|---|
+|admin|password123|
+
 Résumé :
 
 - Une vulnérabilité de type désérialisation YAML (encore) est présente dans le service `Tomcat`.
